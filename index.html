@@ -48,12 +48,13 @@
 
 				<!-- Footer -->
 					<footer id="footer">
-						<span class="copyright">&copy; 2026 VNIX.</span>
+						<span class="copyright">&copy; <span id="year">2026</span> VNIX.</span>
 					</footer>
 
 			</div>
 		</div>
 		<script>
+			document.getElementById('year').textContent = new Date().getFullYear();
 			window.onload = function() { document.body.classList.remove('is-preload'); }
 			window.ontouchmove = function() { return false; }
 			window.onorientationchange = function() { document.body.scrollTop = 0; }
