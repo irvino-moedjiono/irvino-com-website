@@ -26,12 +26,12 @@
 	@mixin bg($width) {
 		@include keyframes('bg') {
 			0%		{ @include vendor('transform', 'translate3d(0,0,0)'); }
-			100%	{ @include vendor('transform', 'translate3d(#{$width * -1},0,0)'); }
+			100%	{ @include vendor('transform', 'translate3d(calc(100vh * -16 / 9),0,0)'); }
 		}
 
 		#bg {
-			background-size: $width auto;
-			width: ($width * 3);
+			background-size: auto 100vh;
+			width: calc(100vh * 16 / 9 * 3);
 		}
 	}
 
@@ -125,7 +125,7 @@
 		}
 
 	body {
-		background: _palette(bg);
+		background: #111;
 		overflow: hidden;
 
 		// Stops initial animations until page loads.
@@ -207,14 +207,29 @@
 		@include vendor('transform', 'translate3d(0,0,0)');
 
 		/* Set your background with this */
-		background: _misc(bg);
-
+		background: var(--scene-image, url("images/bg-city-evening.jpg")) bottom left;
 		background-repeat: repeat-x;
 		height: 100%;
 		left: 0;
 		opacity: 1;
 		position: fixed;
 		top: 0;
+	}
+
+	html[data-tod="morning"] {
+		--scene-image: url("images/bg-city-morning.jpg?v=loop3");
+	}
+
+	html[data-tod="day"] {
+		--scene-image: url("images/bg-city-day.jpg?v=loop4");
+	}
+
+	html[data-tod="sunset"] {
+		--scene-image: url("images/bg-city-sunset.jpg?v=loop3");
+	}
+
+	html[data-tod="night"] {
+		--scene-image: url("images/bg-city-evening.jpg?v=loop3");
 	}
 
 	@include bg(_misc(bg-width) * 1.5);

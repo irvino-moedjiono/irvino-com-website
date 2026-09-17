@@ -10,7 +10,20 @@
 		<link rel="icon" type="image/x-icon" href="assets/css/images/favicon.ico">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<script>
+			(function () {
+				var allowed = { morning: 1, day: 1, sunset: 1, night: 1 };
+				var param = new URLSearchParams(window.location.search).get('tod');
+				var hour = new Date().getHours();
+				var tod = allowed[param] ? param
+					: (hour >= 6 && hour < 10) ? 'morning'
+					: (hour >= 10 && hour < 17) ? 'day'
+					: (hour >= 17 && hour < 21) ? 'sunset'
+					: 'night';
+				document.documentElement.setAttribute('data-tod', tod);
+			})();
+		</script>
+		<link rel="stylesheet" href="assets/css/main.css?v=tod-wide2" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
@@ -44,6 +57,17 @@
 			window.onload = function() { document.body.classList.remove('is-preload'); }
 			window.ontouchmove = function() { return false; }
 			window.onorientationchange = function() { document.body.scrollTop = 0; }
+			function applyTimeOfDay() {
+				var allowed = { morning: 1, day: 1, sunset: 1, night: 1 };
+				if (allowed[new URLSearchParams(window.location.search).get('tod')]) return;
+				var hour = new Date().getHours();
+				var tod = (hour >= 6 && hour < 10) ? 'morning'
+					: (hour >= 10 && hour < 17) ? 'day'
+					: (hour >= 17 && hour < 21) ? 'sunset'
+					: 'night';
+				document.documentElement.setAttribute('data-tod', tod);
+			}
+			setInterval(applyTimeOfDay, 60000);
 		</script>
 	</body>
 </html>
